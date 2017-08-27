@@ -5,7 +5,7 @@
 	session_start();
 	//functions
 	function sqlResult($query){
-		$conn = new mysqli($_SESSION["host"],$_SESSION["username"],$_SESSION["password"],$_SESSION["db_name"]);
+		$conn = new mysqli("localhost","root","a","weddings");
 		return mysqli_query($conn, $query);
 
 	}
@@ -109,6 +109,8 @@
 				SET is_confirmed = 0
 				WHERE id = $id;";
 		$result = sqlResult($query);
+		header('Location: thankyou.php');
+
 	}
 	if(isset($_POST['yes'])){
 		$actual_amount = $_POST['numOfGuests'];
@@ -116,6 +118,8 @@
 				SET is_confirmed = 1, actual_amount= $actual_amount
 				WHERE id = $id;";
 		$result = sqlResult($query);
+		header('Location: thankyou.php');
+
 	}
 
 

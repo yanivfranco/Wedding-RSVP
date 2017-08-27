@@ -1,5 +1,11 @@
 
 <?php
+	//auth
+	if($_GET['token'] != 'fa1g50') { //if token not the same
+		header('HTTP/1.0 403 Forbidden');
+		echo 'Forbidden!';
+		exit;
+	}
 	//debug
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL | E_STRICT);
@@ -42,7 +48,7 @@
 <!-- MySQL connection and setup -->
 <div class="db_connect">
 	<h>MySQL Setup</h><br>
-	<p><?php if(isset($_SESSION["host"])) echo "There are saved connection details: ".$_SESSION["host"]." ".$_SESSION["username"]." ".$_SESSION["password"]." ".$_SESSION["db_name"]?></p>
+	<p><?php if(isset($_SESSION["host"])) echo "<span style='font-size: 70%; color: red; margin: 0;'>There are saved connection details: ".$_SESSION["host"]." ".$_SESSION["username"]." ".$_SESSION["password"]." ".$_SESSION["db_name"]."</span>";?></p>
 	<form action="" method="post" enctype="multipart/form-data">
 		  MySQL host: <input type="text" name="host" id="host"/><br>
 		  MySQL username: <input type="text" name="username" id="username"/><br>
@@ -56,7 +62,7 @@
 			$_SESSION["username"] = $_POST['username'];
 			$_SESSION["password"] = $_POST['password'];
 			$_SESSION["db_name"] = $_POST['db_name'];
-			echo "Details stored";
+			echo "<span style='font-size: 70%; color: red; margin: 0;'>Details stored</span>";
 		}
 
 	?>
@@ -70,8 +76,8 @@
 			$db_name = $_POST['db_name'];
 			$query = "CREATE DATABASE " . $db_name;
 			$result = sqlNoResult($query);
-			if($result == TRUE) echo "Create " .$db_name .  " database succeded";
-			else echo "Create table failed: " . $conn->error;
+			if($result == TRUE) echo "<span style='font-size: 70%; color: red; margin: 0;'>Create " .$db_name .  " database succeded</span>";
+			else echo "<span style='font-size: 70%; color: red; margin: 0;'>Create table failed: " . $conn->error."</span>";
 		}
 	?>
 	<!-- drop table -->
@@ -85,7 +91,7 @@
 			$query = "DROP TABLE $drop_name;";
 			$result = sqlNoResult($query);
 			if($result == TRUE) echo "<span style='font-size: 70%; color: red; margin: 0;'>Drop table " .$drop_name .  " succeded</span>";
-			else echo "Drop table failed: " . $conn->error;
+			else echo "<span style='font-size: 70%; color: red; margin: 0;'>Drop table failed: " . $conn->error."</span>";
 		}
 	?>
 </div>
@@ -96,7 +102,8 @@
 <!-- exel file handeling -->
 <div class="xlupload">
 	<h>CSV Guests file upload to database </h>
-	table will be [id,name,phone,amount,token,is_confirmed(1/0), actual_amount]
+	table will be [id,name,phone,token,is_confirmed(1/0), actual_amount] <br>
+	CSV file : [id,name,phone]
 	<form action="" method="post" enctype="multipart/form-data">
 	  Select exel guests file: <input type="file" name="file" id="file"/><br>
 	  Choose SQL table name: <input type="text" name="table_name" id="table_name"/><br>
@@ -110,14 +117,14 @@
 				$table_name = $_POST['table_name'];
 			}
 			else{
-				echo "Table name is not valid";
+				echo "<span style='font-size: 70%; color: red; margin: 0;'>Table name is not valid</span>";
 				return;
 			}
 			$filename = $_FILES['file']['name'];
 			$allowed =  array('csv');
 			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 			if(!in_array($ext,$allowed) ) {//checks if file is csv
-			    echo 'error - not a CSV file!';
+			    echo "<span style='font-size: 70%; color: red; margin: 0;'>error - not a CSV file!</span>";
 			}
 			else{//if its a valid csv file
 				//creates a table in the database
@@ -125,27 +132,33 @@
 				id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 				name VARCHAR(30) NOT NULL,
 				phone VARCHAR(50),
-				amount INT(2),
 				token VARCHAR(10),
 				is_confirmed INT(1),
 				actual_amount INT(2)
 				)";
 				$result = sqlNoResult($query);
-				if($result == 1) echo "Table $table_name created successfuly<br>";
-				else echo "Table $table_name create failed $result<br>";
+				if($result == 1) echo "<span style='font-size: 70%; color: red; margin: 0;'>Table $table_name created successfuly</span><br>";
+				else echo "<span style='font-size: 70%; color: red; margin: 0;'>Table $table_name create failed $result</span><br>";
 
 				//inserting the csv information into database
 				$filepath = $_FILES["file"]["tmp_name"];
 				$file = fopen($filepath,"r");
 				$line = fgetcsv($file);
+				$success = 0 ; $error = NULL; $error_counter = 0;
 				 while(! feof($file)){
-				 	$id = $line[0]; $name = $line[1]; $phone = $line[2]; $amount = $line[3]; $token = generateRandomString();
-				 	$query = "INSERT INTO $table_name (id, name, phone, amount,token,actual_amount)
-					VALUES ($id,'$name',$phone,$amount,'$token',$amount)";
+				 	$id = $line[0]; $name = $line[1]; $phone = $line[2]; $token = generateRandomString();
+				 	$query = "INSERT INTO $table_name (id, name, phone,token,actual_amount)
+					VALUES ($id,'$name',$phone,'$token', 1)";
 					$result = sqlNoResult($query);
-					if($result == 1) echo "line insert to $table_name succeded<br>";
-					else echo "line insert to $table_name failed: $result<br>";		
-					$line = fgetcsv($file);		  }
+					//checking sql results and counting
+					if($result == 1) $success = $success + 1;
+					else {
+						$error_counter = $error_counter+1;
+						$error = $result;
+					}		
+					$line = fgetcsv($file);		  
+				}
+				 echo "<span style='font-size: 70%; color: red; margin: 0;'> $success/$id successful sql inserts<br>$error_counter errors, last one is: $error</span>";
 			}
 		}
 
@@ -173,7 +186,7 @@
 				while($row = mysqli_fetch_array($result)){
 					$id = $row["id"]; $name = $row["name"]; $phone = $row["phone"]; $token = $row["token"]; //getting guest info
 					$link="$index_page/?id=$id&token=$token";
-					$complete_message = "helli $name,\n$message, \n$link";
+					$complete_message = "שלום $name,\n$message, \n$link";
 					//sends sms
 					$smsGateway->sendMessageToNumber($phone, $complete_message, $device_id);
 
