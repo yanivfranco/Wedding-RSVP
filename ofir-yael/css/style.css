@@ -1,0 +1,277 @@
+
+
+html, body{
+font-family: 'Lora', serif;
+	font-size: 100%;
+	background: #FFf;
+}
+.banner{
+  background: url(../images/bg.jpg) no-repeat 0px 0px;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -ms-background-size: cover;
+  min-height: 450px;
+  background-position: center
+}
+
+.banner-info{
+   width:60%;
+  margin: 21% auto 0;
+  text-align: center;
+}
+.banner-info h3{
+  font-family: 'Niconne', cursive;
+  color: #fff;
+  font-size:7em;
+  font-weight:400;
+  z-index: 999;
+}
+.banner-info h3 lable{
+  font-family: 'Niconne', cursive;
+  color:#00B198;
+}
+.banner-info p{
+  font-family: 'Niconne', cursive;
+  color: #fff;
+  font-size: 4em;
+  z-index: 999;
+  text-align: center;
+  margin: 0 auto;
+  padding: 1em 0;
+}
+/*--welcome-section--*/
+.welcome-section {
+  padding:4em 0;
+  text-align:center;
+  
+}
+.welcome-section h2{
+font-family: 'Open Sans Hebrew Condensed', serif;
+  color:#00B198;
+  font-size:4em;
+  font-weight:400;
+  text-align:center;
+}
+.welcome-section  p {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 2em;
+  line-height: 1.8em;
+  color: #2F3338;
+}
+.welcome-section  p1 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.5em;
+  line-height: 1.8em;
+  color: #2F3338;
+}
+.welcome-section  p2 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.7em;
+  font-weight: bold;
+  color: #2F3338;
+}
+.attend {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1em;
+  font-weight: bold;
+  color: #2F3338;
+}
+
+/* Responsive */
+@media (max-width:1440px){
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 662px;
+      background-position: center
+	}
+}
+@media (max-width:1366px){
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 586px;
+      background-position: center
+	}
+
+
+@media (max-width:1024px){
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height:200px;
+      background-position: center
+	}
+	.banner-info {
+	  width: 85%;
+	  margin: 10% auto 0;
+	  text-align: center;
+	}
+	.banner-info h3 {
+	  font-size: 6em;
+	}
+
+	.welcome-section h2{
+	  font-size: 4em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	}
+	
+}
+@media (max-width:768px){
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 360px;
+    background-position: center
+	}
+	.welcome-section h2 {
+	  font-size: 4em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	}
+	.banner-info h3 {
+	  font-size: 5em;
+	}
+  .banner-info p {
+    font-size: 3.5em;
+  }
+	
+	  .welcome-section p {
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	  font-size: 1.8em;
+	  margin: 1% auto 0;
+	  width: 100%;
+	  }
+
+    .welcome-section  p1 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.8em;
+  line-height: 1.8em;
+  color: #2F3338;
+}
+.welcome-section  p2 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #2F3338;
+}
+.attend {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #2F3338;
+}
+}
+@media (max-width:640px){
+
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 350px;
+      background-position: center
+
+	}
+	.banner-info h3 {
+	  font-size: 5em;
+	}
+
+  .welcome-section h2 {
+	  font-size: 3.2em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+  }
+}
+@media (max-width:480px){
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 250px;
+      background-position: center
+
+	}
+    .banner-info h3,p {
+    font-size: 3.2em;
+  }
+	.welcome-section p {
+	  font-size: 1.5em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	  }
+.welcome-section  p1 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.5em;
+  line-height: 1.8em;
+  color: #2F3338;
+}
+.welcome-section  p2 {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #2F3338;
+}
+.attend {
+  font-family: 'Open Sans Hebrew Condensed', serif;
+  font-size: 1em;
+  font-weight: bold;
+  color: #2F3338;
+}
+
+	.welcome-section h2{
+	  font-size:2.8em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	}
+
+}
+@media (max-width:320px){
+	.banner-info h3 {
+	  font-size: 3em;
+	}
+	.banner {
+	  background: url(../images/bg.jpg) no-repeat 0px 0px;
+	  background-size: cover;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  -ms-background-size: cover;
+	  min-height: 300px;
+    background-position: center
+
+	}
+	.banner-info p {
+	  font-size: 3em;
+	  padding: 0.3em 0;
+	}
+  .banner-info h3 {
+    font-size: 3.2em;
+
+  }	
+	.welcome-section h2 {
+	  font-size: 2.2em;
+    font-family: 'Open Sans Hebrew Condensed', serif;
+	}
+	
+}
+		
