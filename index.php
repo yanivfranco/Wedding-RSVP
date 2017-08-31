@@ -48,6 +48,7 @@
 <!-- MySQL connection and setup -->
 <div class="db_connect">
 	<h>MySQL Setup</h><br>
+	<!-- Store connection details -->
 	<p><?php if(isset($_SESSION["host"])) echo "<span style='font-size: 70%; color: red; margin: 0;'>There are saved connection details: ".$_SESSION["host"]." ".$_SESSION["username"]." ".$_SESSION["password"]." ".$_SESSION["db_name"]."</span>";?></p>
 	<form action="" method="post" enctype="multipart/form-data">
 		  MySQL host: <input type="text" name="host" id="host"/><br>
@@ -76,8 +77,8 @@
 			$db_name = $_POST['db_name'];
 			$query = "CREATE DATABASE " . $db_name;
 			$result = sqlNoResult($query);
-			if($result == TRUE) echo "<span style='font-size: 70%; color: red; margin: 0;'>Create " .$db_name .  " database succeded</span>";
-			else echo "<span style='font-size: 70%; color: red; margin: 0;'>Create table failed: " . $conn->error."</span>";
+			if($result == TRUE) echo "<span style='font-size: 70%; color: red; margin: 0;'>Create " .$db_name .  " Database succeded</span>";
+			else echo "<span style='font-size: 70%; color: red; margin: 0;'>Create Database failed: " . $conn->error."</span>";
 		}
 	?>
 	<!-- drop table -->
