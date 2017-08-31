@@ -76,7 +76,12 @@
 		if(isset($_POST['create_db'])){
 			$db_name = $_POST['db_name'];
 			$query = "CREATE DATABASE " . $db_name;
-			$result = sqlNoResult($query);
+			$conn = new mysqli($_SESSION["host"],$_SESSION["username"],$_SESSION["password"]);
+			if ($conn->query($query) === TRUE) {
+				    $result = 1;
+			} else {
+				   $result = $conn->error;
+			}
 			if($result == TRUE) echo "<span style='font-size: 70%; color: red; margin: 0;'>Create " .$db_name .  " Database succeded</span>";
 			else echo "<span style='font-size: 70%; color: red; margin: 0;'>Create Database failed: " . $conn->error."</span>";
 		}
