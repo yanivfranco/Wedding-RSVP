@@ -95,7 +95,7 @@
 			
              <input type="submit" name="no" class="button-form" id="no" style="background: transparent;border: none;background-image: url(images/x-mark.png);background-size: 100%; height: 50px; width: 50px; margin-right: 50px" value='' />
              <input type="submit" name="yes" class="button-form" id="yes" style="background: transparent;border: none;background-image: url(images/check-mark.png);background-size: 100%; height: 50px; width: 50px ;margin-left: 50px" value='' /><br>
-             <span class="attend" style="margin-left: 50px">מגיע/ה</span><span class="attend" style="margin-right: 50px">לא מגיע/ה</span>
+             <span class="attend" style="margin-right: 50px">לא מגיע/ה</span><span class="attend" style="margin-left: 50px">מגיע/ה</span>
 			</form>
 	</div>
 </body>
