@@ -40,7 +40,7 @@
 
 ?>
 <!DOCTYPE HTML>
-<html>
+<html dir="rtl">
 <head>
 <title>Ofir & Yael</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -62,8 +62,6 @@
 	<div class="container">
 		<li>
 			<div class="banner-info">
-				<h3>Ofir <lable>&</lable> Yael</h3>
-				<p>24/10/2017</p>
 			</div>
 		</li>
 	</div>
@@ -73,8 +71,8 @@
 	<div class="welcome-section">
 		<div class="container">
 		   <h2>שלום <?php echo "$name" ;?></h2>
-		   <p>אופיר ויעל מתרגשים להזמינכם לטקס הנישואים שיתקיים ביום שבת ה</p>
-		   <p2> 19:30 24/10/2017 </p2><br>
+		   <p>אופיר ויעל מתרגשים להזמינכם לטקס הנישואים שיתקיים ביום שלישי ה-</p>
+		   <p2> 19:00 24/10/2017 </p2><br>
 		   <p1> באקו גן אירועים - חדרה</p1><br><br>
 		   <p2>:כמות האורחים שמגיעים</p2>
 			<div class="input-group input-group-lg" style="direction: ltr;font-weight:bold;font-size:23px;width: 150px; margin: 5px auto;">
