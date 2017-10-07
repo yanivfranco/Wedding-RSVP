@@ -22,8 +22,6 @@
 	<div class="container">
 		<li>
 			<div class="banner-info">
-				<h3>Ofir <lable>&</lable> Yael</h3>
-				<p>24/10/2017</p>
 			</div>
 		</li>
 	</div>
