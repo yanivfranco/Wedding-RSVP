@@ -1,6 +1,6 @@
 
 <!DOCTYPE HTML>
-<html>
+<html dir="rtl">
 <head>
 <title>Ofir & Yael</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,7 +32,12 @@
 	<!--/welcome-->
 	<div class="welcome-section">
 		<div class="container">
-		   <p>בחירתכם נקלטה במערכת<br>תודה רבה</p>
+		   <p>בחירתכם נקלטה במערכת.<br>
+		   	איזה כיף! נתראה ביום ג' 24.10.2017 <br>בשעה 19:00 ב-אקו גן אירועים.<br>
+		   	מומלץ להצטייד בעליוניות.<br>
+		   	<a href="https://waze.com/ul/hsvbbdt0fn" style="color: blue;">לחצו כאן להכוונה ב Waze</a><br>
+
+		   </p>
 
 	</div>
 </body>
