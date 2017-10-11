@@ -2,18 +2,18 @@
 	ini_set('display_errors', 'On');
 	error_reporting(E_ALL | E_STRICT);
 	session_start();
-
-	//checking token
-	if(isset($_GET['token']){
-		if(($_GET['token']) =! "abcd1234ABCD1234"){
-				header('HTTP/1.0 403 Forbidden');
-				echo 'Forbidden! Token is incorrect';
-				exit;
-		}
+	
+	if(isset($_GET['token']))
+	{
+	    $token = $_GET['token'];
+	    if($token != "abcd1234ABCD1234"){
+			header('HTTP/1.0 403 Forbidden');
+			echo 'Forbidden!';
+			exit;	    }
 	}
-	else{//if no toke paramater
+	else{
 		header('HTTP/1.0 403 Forbidden');
-		echo 'Forbidden! Token is incorrect';
+		echo 'Forbidden!';
 		exit;
 	}
 	
