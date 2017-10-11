@@ -58,10 +58,10 @@
 	    	}
 	    	elseif($row["is_confirmed"] == 0){
 	    		$not_coming = $not_coming + 1;
-	    		$total_guests = $total_guests + $row["actual_amount"];
 	    	}
 			elseif($row["is_confirmed"] == 1){
 	    		$coming = $coming + 1;
+	    		$total_guests = $total_guests + $row["actual_amount"];
 	    	}
 	    }
 	}
