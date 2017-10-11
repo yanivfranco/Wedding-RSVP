@@ -42,13 +42,14 @@
 	$unknown = 0;
 	$coming = 0;
 	$not_coming = 0;
+	$total_guests = 0;
 	// Create connection
 	$conn = new mysqli($_SESSION["host"],$_SESSION["username"],$_SESSION["password"],$_SESSION["db_name"]);
 	// Check connection
 	if ($conn->connect_error) {
 	    die("Connection failed: " . $conn->connect_error);
 	} 
-	$sql = "SELECT is_confirmed FROM ofiryael";
+	$sql = "SELECT is_confirmed,actual_amount FROM ofiryael";
 	$result = $conn->query($sql);
 	if ($result->num_rows > 0) {
 	    while($row = $result->fetch_assoc()) {
@@ -57,6 +58,7 @@
 	    	}
 	    	elseif($row["is_confirmed"] == 0){
 	    		$not_coming = $not_coming + 1;
+	    		$total_guests = $total_guests + $row["actual_amount"];
 	    	}
 			elseif($row["is_confirmed"] == 1){
 	    		$coming = $coming + 1;
@@ -200,6 +202,9 @@
 			</div>
 			<div class="is_coming">
 				<span>מגיעים</span><span>לא מגיעים</span><span>לא ענו</span>
+			</div>
+			<div class="is_coming">
+				<span>סך הכל אורחים:</span><span><?php echo $total_guests;?></span>
 			</div>
 			<!-- table -->
 			<?php
