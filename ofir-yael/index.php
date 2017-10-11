@@ -165,6 +165,11 @@
 							$success = 0 ; $error = NULL; $error_counter = 0;
 							 while(! feof($file)){
 							 	$id = $line[0]; $name = $line[1]; $phone = $line[2]; $token = generateRandomString();
+							 	//fixes phone numer
+							 	if($phone[0] == '0'){
+							 		$phone = substr($phone,1);
+							 	}
+							 	$phone = "+972".$phone;
 							 	$query = "INSERT INTO $table_name (id, name, phone,token,actual_amount)
 								VALUES ($id,'$name',$phone,'$token', 1)";
 								$result = sqlNoResult($query);
