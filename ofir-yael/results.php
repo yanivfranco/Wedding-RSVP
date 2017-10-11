@@ -109,12 +109,22 @@
 						$filename = $_FILES['file']['name'];
 						$allowed =  array('csv');
 						$ext = pathinfo($filename, PATHINFO_EXTENSION);
+						$date = date("d_m_Y_hisa");
 						if(!in_array($ext,$allowed) ) {//checks if file is csv
-						    echo "<span style='font-size: 70%; color: red; margin: 0;'>error - not a CSV file!</span>";
+						    echo "<span style='font-size: 100%; color: red; margin: 0;'>שגיאה! הכנס רק קבצים עם סיומת CSV</span>";
 						}
 						else{//if its a valid csv file
-							//drops last table
 							$table_name = $_SESSION["table_name"];
+							//backup current table
+							$query = "CREATE TABLE backup.$date LIKE weddings.$table_name";
+							$result = sqlNoResult($query);
+							echo($result);
+
+							$query = "INSERT INTO backup.$date SELECT *  FROM $table_name";
+							$result = sqlNoResult($query);
+							echo($result);
+
+							//drops last table
 							$query = "DROP TABLE $table_name;";
 							$result = sqlNoResult($query);
 						
@@ -128,8 +138,8 @@
 							actual_amount INT(2)
 							)";
 							$result = sqlNoResult($query);
-							if($result == 1) echo "<span style='font-size: 70%; color: red; margin: 0;'>Table $table_name created successfuly</span><br>";
-							else echo "<span style='font-size: 70%; color: red; margin: 0;'>Table $table_name create failed $result</span><br>";
+							if($result == 1) echo "<span style='font-size: 100%; color: red; margin: 0;'>טבלה הוכנסה בהצלחה</span><br>";
+							else echo "<span style='font-size: 100%; color: red; margin: 0;'>תקלה בהכנת הטבלה $result</span><br>";
 
 							//inserting the csv information into database
 							$filepath = $_FILES["file"]["tmp_name"];
@@ -149,7 +159,7 @@
 								}		
 								$line = fgetcsv($file);		  
 							}
-							 echo "<span style='font-size: 70%; color: red; margin: 0;'> $success/$id successful sql inserts<br>$error_counter errors, last one is: $error</span>";
+							 echo "<span style='font-size: 100%; color: red; margin: 0;'> $success/$id successful sql inserts<br>$error_counter errors, last one is: $error</span>";
 						}
 					}
 
@@ -177,8 +187,8 @@
 								$complete_message = "שלום $name,\n$message, \n$link";
 								//sends sms
 								$smsGateway->sendMessageToNumber($phone, $complete_message, $device_id);
-
 							}
+							echo "<span style='font-size: 100%; color: red; margin: 0;'> ההודעות נשלחו בהצלחה!!!</span>";
 						}
 					}
 				?>
