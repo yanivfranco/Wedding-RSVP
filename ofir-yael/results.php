@@ -7,6 +7,12 @@
 	$_SESSION["password"] = "a";
 	$_SESSION["db_name"] = "weddings";
 	$_SESSION["table_name"] = "ofiryael";
+
+	//sms gateway login
+	include "smsGateway.php";
+	$smsGateway = new SmsGateway('yanivfranco@gmail.com', 'smsgatewayfa1g50');
+	$device_id = 57323;
+
 	//functions
 	function sqlNoResult($query){
 		$conn = new mysqli($_SESSION["host"],$_SESSION["username"],$_SESSION["password"],$_SESSION["db_name"]);
@@ -92,9 +98,9 @@
 
 			<!-- exel file handeling -->
 			<span class="xlupload">
-				<form action="" method="post" enctype="multipart/form-data">
-				  בחר קובץ אורחים: <input style="display:inline; margin: 20px;" type="file" name="file" id="file"/></br>
-				  <input type="submit" name="file_submit" value="שלח"/>
+				<form action="" method="post" enctype="multipart/form-data" onsubmit="return confirm('אתה בטוח שאתה מעוניין להעלות קובץ חדש? אופציה זו תמחק את כל המידע ששמור עד כה')">
+				  בחר קובץ אורחים: <input style="display:inline; margin: 20px;" type="file" name="file" id="file"/>
+				  <input type="submit" name="file_submit" value="לחץ כאן להעלת הקובץ"/>
 				</form>
 
 				<!-- php for exel handeling -->
@@ -151,8 +157,32 @@
 			</span>
 
 
+			<span>
+				<form action="" method="post" enctype="multipart/form-data" onsubmit="return confirm('הודעות ישלחו לכל האורחים בטבלה. האם אתה בטוח?')">
+					כתוב כאן את ההודעה שתבוא אחרי השם ולפני הלינק: <input style="display:inline; width: 250px; height: 150px"type="text" name="message"><br>
+					<input type="submit" name="sms_submit" value="לחץ כאן לשליחת ההודעות"/>
+				</form>
 
+			<!-- php for sms sending -->
+				<?php
+					if(isset($_POST['sms_submit'])){ //check if form was submitted
+						$table_name = $_SESSION["table_name"];
+						$message = $_POST['message'];
+						$result = sqlResult("SELECT id, name, phone, token FROM $table_name");
+						//iterate over the guests, building links and personal messages and sends sms.
+						if(mysqli_num_rows($result) > 0){
+							while($row = mysqli_fetch_array($result)){
+								$id = $row["id"]; $name = $row["name"]; $phone = $row["phone"]; $token = $row["token"]; //getting guest info
+								$link="http://". $_SERVER['SERVER_NAME'] ."/ofir-yael/?id=$id&token=$token";
+								$complete_message = "שלום $name,\n$message, \n$link";
+								//sends sms
+								$smsGateway->sendMessageToNumber($phone, $complete_message, $device_id);
 
+							}
+						}
+					}
+				?>
+			</span>
 
 
 			<div class="numbers">
