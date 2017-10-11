@@ -1,7 +1,7 @@
 
 
 html, body{
-font-family: 'Lora', serif;
+font-family: 'Open Sans Hebrew Condensed', serif;
   font-size: 100%;
 }
 
@@ -48,7 +48,37 @@ table tr:nth-child(2n) {
 table tr:nth-child(2n+1) {
   background-color: #d9d9d9;
 }
+span{
+  margin-left: 50px;
+  margin-right: 50px;
+  text-shadow: 1px 1px 4px #000000;
+}
 
+.numbers{
+  font-size: 400%;
+
+}
+.is_coming{
+  font-size: 150%;
+
+}
+.coming{
+  color: green;
+      margin-left: 65px;
+  margin-right: 65px;
+}
+
+.not_coming{
+  color: red;
+      margin-left: 65px;
+  margin-right: 65px;
+}
+
+.unknown{
+  color: yellow;
+      margin-left: 65px;
+  margin-right: 65px;
+}
 
 .banner{
   background: url(../images/bg.jpg) no-repeat 0px 0px;
@@ -291,6 +321,9 @@ font-family: 'Open Sans Hebrew Condensed', serif;
 
 }
 @media (max-width:320px){
+  .numbers{
+    font-size: 100%;
+  }
   .banner-info h3 {
     font-size: 3em;
   }

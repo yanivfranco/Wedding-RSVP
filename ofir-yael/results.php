@@ -42,11 +42,17 @@ table, th, td {
 	<!--/welcome-->
 	<div class="welcome-section">
 		<div class="container">
-			<?php
+			<?php 
+				ini_set('display_errors', 'On');
+				error_reporting(E_ALL | E_STRICT);
 				$servername = "localhost";
 				$username = "root";
 				$password = "a";
 				$dbname = "weddings";
+				$unknown = 0;
+				$coming = 0;
+				$not_coming = 0;
+
 
 				// Create connection
 				$conn = new mysqli($servername, $username, $password, $dbname);
@@ -54,6 +60,29 @@ table, th, td {
 				if ($conn->connect_error) {
 				    die("Connection failed: " . $conn->connect_error);
 				} 
+				$sql = "SELECT is_confirmed FROM ofiryael";
+				$result = $conn->query($sql);
+				if ($result->num_rows > 0) {
+				    while($row = $result->fetch_assoc()) {
+				    	if($row["is_confirmed"] == NULL){
+				    		$unknown = $unknown + 1;
+				    	}
+				    	elseif($row["is_confirmed"] == 0){
+				    		$not_coming = $not_coming + 1;
+				    	}
+						elseif($row["is_confirmed"] == 1){
+				    		$coming = $coming + 1;
+				    	}
+				    }
+				}
+			?>
+			<div class="numbers">
+				<span class="unknown"><?php echo $unknown;?></span><span class="not_coming"><?php echo $not_coming;?></span><span class="coming"><?php echo $coming;?></span>
+			</div>
+			<div class="is_coming">
+				<span>מגיעים</span><span>לא מגיעים</span><span>לא ענו</span>
+			</div>
+			<?php
 
 				$sql = "SELECT id, name, is_confirmed, actual_amount FROM ofiryael";
 				$result = $conn->query($sql);
