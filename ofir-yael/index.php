@@ -146,7 +146,7 @@
 							//creates a table in the database
 							$query = "CREATE TABLE $table_name (
 							id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-							name VARCHAR(30) NOT NULL,
+							name VARCHAR(100) NOT NULL,
 							phone VARCHAR(50),
 							token VARCHAR(10),
 							is_confirmed INT(1),
