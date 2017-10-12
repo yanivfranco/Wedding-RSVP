@@ -135,11 +135,9 @@
 							//backup current table
 							$query = "CREATE TABLE backup.$date LIKE weddings.$table_name";
 							$result = sqlNoResult($query);
-							echo($result);
 
 							$query = "INSERT INTO backup.$date SELECT *  FROM $table_name";
 							$result = sqlNoResult($query);
-							echo($result);
 
 							//drops last table
 							$query = "DROP TABLE $table_name;";
@@ -177,7 +175,6 @@
 							 	//inserting to table					 	
 							 	$query = "INSERT INTO $table_name (id, name, phone,token,actual_amount)
 								VALUES ($id,'$name',$phone,'$token', 1)";
-								echo "$query <br>";
 								$result = sqlNoResult($query);
 								//checking sql results and counting
 								if($result == 1) $success = $success + 1;
