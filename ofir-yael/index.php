@@ -113,7 +113,7 @@
 	<div class="welcome-section">
 		<div class="container">
 
-			<!-- exel file handeling -->
+			<!-- exel file handeling form-->
 			<span class="xlupload">
 				<form action="" method="post" enctype="multipart/form-data" onsubmit="return confirm('אתה בטוח שאתה מעוניין להעלות קובץ חדש? אופציה זו תמחק את כל המידע ששמור עד כה')">
 				  בחר קובץ אורחים: <input style="display:inline; margin: 20px;" type="file" name="file" id="file"/>
@@ -165,13 +165,19 @@
 							$success = 0 ; $error = NULL; $error_counter = 0;
 							 while(! feof($file)){
 							 	$id = $line[0]; $name = $line[1]; $phone = $line[2]; $token = generateRandomString();
+
 							 	//fixes phone numer
 							 	if($phone[0] == '0'){
 							 		$phone = substr($phone,1);
 							 	}
-							 	$phone = "+972".$phone;
+							 	if($phone[0] != '+'){
+							 		$phone = "+972".$phone;
+							 	}		
+
+							 	//inserting to table					 	
 							 	$query = "INSERT INTO $table_name (id, name, phone,token,actual_amount)
 								VALUES ($id,'$name',$phone,'$token', 1)";
+								echo "$query <br>";
 								$result = sqlNoResult($query);
 								//checking sql results and counting
 								if($result == 1) $success = $success + 1;
@@ -189,9 +195,25 @@
 			</span>
 
 
+
+
+			<!-- SMS sending -->
+
+
 			<span>
 				<form action="" method="post" enctype="multipart/form-data" onsubmit="return confirm('הודעות ישלחו לכל האורחים בטבלה. האם אתה בטוח?')">
 					כתוב כאן את ההודעה שתבוא אחרי השם ולפני הלינק: <input style="display:inline; width: 250px; height: 150px"type="text" name="message"><br>
+					בחר טלפון ממנו לשלוח: <select name="sending_phone"> 
+
+					<!-- fetching devices info and inserting to options -->
+					<?php
+						$result = $smsGateway->getDevices(1);
+						$result = $result['response']['result']['data'];
+						foreach ($result as $data) {
+						 	echo "<option value=".$data['id'].">".$data['name']." ".$data['make']. " ".$data['model']."</option>";
+						 } 
+					?>
+					</select>
 					<input type="submit" name="sms_submit" value="לחץ כאן לשליחת ההודעות"/>
 				</form>
 
@@ -199,6 +221,7 @@
 				<?php
 					if(isset($_POST['sms_submit'])){ //check if form was submitted
 						$table_name = $_SESSION["table_name"];
+						$sending_phone = $_POST['sending_phone'];
 						$message = $_POST['message'];
 						$result = sqlResult("SELECT id, name, phone, token FROM $table_name");
 						//iterate over the guests, building links and personal messages and sends sms.
@@ -208,7 +231,7 @@
 								$link="http://". $_SERVER['SERVER_NAME'] ."/ofir-yael/guest.php?id=$id&token=$token";
 								$complete_message = "שלום $name,\n$message, \n$link";
 								//sends sms
-								$smsGateway->sendMessageToNumber($phone, $complete_message, $device_id);
+								$smsGateway->sendMessageToNumber($phone, $complete_message, $sending_phone);
 							}
 							echo "<span style='font-size: 100%; color: red; margin: 0;'> ההודעות נשלחו בהצלחה!!!</span>";
 						}
