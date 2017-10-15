@@ -150,7 +150,8 @@
 							phone VARCHAR(50),
 							token VARCHAR(10),
 							is_confirmed INT(1),
-							actual_amount INT(2)
+							actual_amount INT(2),
+							msg_id INT(20)
 							)";
 							$result = sqlNoResult($query);
 							if($result == 1) echo "<span style='font-size: 100%; color: red; margin: 0;'>טבלה הוכנסה בהצלחה</span><br>";
@@ -221,6 +222,11 @@
 						$sending_phone = $_POST['sending_phone'];
 						$message = $_POST['message'];
 						$result = sqlResult("SELECT id, name, phone, token FROM $table_name");
+
+						//logs vars
+						$failed = 0;
+						$success = 0;
+
 						//iterate over the guests, building links and personal messages and sends sms.
 						if(mysqli_num_rows($result) > 0){
 							while($row = mysqli_fetch_array($result)){
@@ -228,9 +234,32 @@
 								$link="http://". $_SERVER['SERVER_NAME'] ."/ofir-yael/guest.php?id=$id&token=$token";
 								$complete_message = "שלום $name,\n$message, \n$link";
 								//sends sms
-								$smsGateway->sendMessageToNumber($phone, $complete_message, $sending_phone);
+								$sms_result = $smsGateway->sendMessageToNumber($phone, $complete_message, $sending_phone);
+
+
+
+								//LOGS 
+								if(  count($sms_result['response']['result']['fails']) > 0){
+									$data = "	* נכשל * מסםר: $id, שם: $name, טלפון: $phone \n";
+									echo $data;
+									$failed++;
+								}
+								if(  count($sms_result['response']['result']['success']) > 0){
+									$msg_id = $sms_result['response']['result']['success'][0]["id"];
+								 	//inserting to table		
+									$query = "UPDATE ofiryael
+											SET msg_id = $msg_id
+											WHERE id = $id;";
+									$tempres = sqlNoResult($query);
+									//checking sql results and counting
+									if($tempres == 1) echo "insert success";
+									else {
+										$error = $tempres;
+										echo $error;
+									}
+								}
 							}
-							echo "<span style='font-size: 100%; color: red; margin: 0;'> ההודעות נשלחו בהצלחה!!!</span>";
+							echo "<span style='font-size: 100%; color: red; margin: 0;'> ההודעות נשלחו בהצלחה!!! <br> נכשלו $failed</span>";
 						}
 					}
 				?>
@@ -249,29 +278,51 @@
 			<!-- table -->
 			<?php
 
-				$sql = "SELECT id, name, is_confirmed, actual_amount FROM ofiryael";
+				$sql = "SELECT id, name, is_confirmed, actual_amount, msg_id FROM ofiryael";
 				$result = $conn->query($sql);
 
 				if ($result->num_rows > 0) {
-				    echo "<table><tr><th>מספר</th><th>שם</th><th>?האם אישרו הגעה</th><th>כמות מגיעים</th></tr>";
+				    echo "<table><tr><th>מספר</th><th>שם</th><th>?האם אישרו הגעה</th><th>מצב ההודעה</th><th>כמות מגיעים</th></tr>";
 				    // output data of each row
 				    while($row = $result->fetch_assoc()) {
 				    	$is_confirmed = $row["is_confirmed"];
+				    	$msg_id = $row["msg_id"];
+				    	$sms_status = "";
+				    	$sms_color = "";
+
+				    	//checking sms status
+				    	if($msg_id != NULL){
+				    		$sms_result = $smsGateway->getMessage($msg_id);
+				    		$sms_status = $sms_result['response']['result']['status'];
+				    		if($sms_status == "failed"){
+				    			$sms_color = "red"; 
+				    		}
+				    		elseif ($sms_status == "sent"){
+				    			$sms_color = "green"; 
+				    		}
+				    		elseif ($sms_status == "pending"){
+				    			$sms_color = "yellow"; 
+				    		}
+				    	}
+
+
+				    	//checking if guests confirmed
 				    	echo "";
 				    	if($is_confirmed == 1) {
 				    		$message = "מגיעים";
-				    		$color = "green";
+				    		$confirmed_color = "green";
 				    	}
 				    	elseif ($is_confirmed == NULL) {
 							$message = "לא נקלטה בחירה";
-				    		$color = "yellow";
+				    		$confirmed_color = "orange";
 				    	}
 				    	else {
 				    		$message = "לא מגיעים";
-				    		$color = "red";
+				    		$confirmed_color = "red";
 
 				    	}
-				        echo "<tr><td>". $row["id"]."</td> <td>". $row["name"]."</td><td style='background-color: $color'>$message</td><td>" . $row["actual_amount"]. "</td></tr>";
+
+				        echo "<tr><td>". $row["id"]."</td> <td>". $row["name"]."</td><td style='color: $confirmed_color'>$message</td><td style='background-color: $sms_color'>". $sms_status ."</td><td>" . $row["actual_amount"]. "</td></tr>";
 				    }
 				    echo "</table>";
 				} else {
