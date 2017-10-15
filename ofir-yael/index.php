@@ -252,8 +252,7 @@
 											WHERE id = $id;";
 									$tempres = sqlNoResult($query);
 									//checking sql results and counting
-									if($tempres == 1) echo "insert success";
-									else {
+									if($tempres == 1){
 										$error = $tempres;
 										echo $error;
 									}
